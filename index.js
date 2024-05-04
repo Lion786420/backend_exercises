@@ -29,6 +29,23 @@ app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
 
+app.get("/api/persons/:id", (request, response) => {
+  const searchedId = Number(request.params.id);
+  const searchedPerson = persons.filter((person) => person.id === searchedId);
+  if (searchedPerson.length != 0) {
+    response.json(searchedPerson);
+  } else {
+    response.status(404).end();
+  }
+});
+
+app.delete("/api/persons/:id", (request, response) => {
+  const searchedId = Number(request.params.id);
+  persons = persons.filter((person) => person.id !== searchedId);
+  console.log(persons);
+  response.status(202).end();
+});
+
 app.get("/info", (request, response) => {
   response.send(
     `<p>Phonebook has info for ${persons.length} people</p><p>${Date()}</p>`
